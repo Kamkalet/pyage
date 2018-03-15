@@ -6,7 +6,6 @@ from pyage.salesman.genotype import TSPGenotype
 logger = logging.getLogger(__name__)
 
 
-
 class AbstractMutation(Operator):
     def __init__(self, type=TSPGenotype, probability=0.5):
         super(AbstractMutation, self).__init__(type)
@@ -25,18 +24,13 @@ class Mutation(AbstractMutation):
     def mutate(self, genotype):
         logger.debug("Mutating genotype: {0}".format(genotype))
 
-        chromosome = genotype.chromosome[:]
-        index1 = random.randrange(0, len( chromosome))
-        index2 = random.randrange(0, len( chromosome))
-        chromosome[index1],  chromosome[index2] = chromosome[index2],  chromosome[index1]
-        gen = TSPGenotype(genotype.cities)
-        gen.set_chromosom(chromosome)
+        chromosome = genotype.chromosome
+        i = random.randrange(0, len(chromosome))
+        j = random.randrange(0, len(chromosome))
+        chromosome[i], chromosome[j] = chromosome[j], chromosome[i]
+        new_genotype = TSPGenotype(genotype.cities)
+        new_genotype.set_chromosome(chromosome)
 
-        logger.debug("Mutated (rand swap) genotype: " + str(gen))
+        logger.debug("Mutated (rand swap) genotype: " + str(new_genotype))
 
-        return gen
-
-
-
-
-
+        return new_genotype

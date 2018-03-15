@@ -25,25 +25,22 @@ class Crossover(AbstractCrossover):
     def cross(self, p1, p2):
         logger.debug("Crossing:\n{0}\nAND\n{1}".format(p1, p2))
 
-        parent1 = p1.chromosome[:]
-        parent2 = p2.chromosome[:]
+        i = random.randrange(0, len(p1.chromosome))
+        j = random.randrange(0, len(p1.chromosome))
+        if i > j:
+            i, j = j, i
 
-        index1 = random.randrange(0, len(parent1))
-        index2 = random.randrange(0, len(parent1))
-        if index1 > index2:
-            index1, index2 = index2, index1
-
-        parent1RemovedTraits = parent1[index1:index2]
-        parent2chromosom = parent2
+        parent1RemovedTraits = p1.chromosome[i:j]
+        parent2chromosom = p2.chromosome
 
         for city in parent1RemovedTraits:
             parent2chromosom.remove(city)
 
 # should i shuffle ?
-        offspring =  (parent1RemovedTraits) + parent2chromosom
+        offspring =   parent2chromosom + (parent1RemovedTraits)
 
         genotype = TSPGenotype(p1.cities)
-        genotype.set_chromosom(offspring)
+        genotype.set_chromosome(offspring)
 
         logger.debug("Crossed genotype: " + str(genotype))
 

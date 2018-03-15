@@ -6,9 +6,9 @@ class TSPGenotype(object):
     def __init__(self, cities):
         # list of City objects
         self.cities = cities
-        self.city_count = len(cities)
-        #chromosome - fx. list [1,6,4] indicates that salesman goes from 1 to 6 to 4 and back to 1
-        self.chromosome = [x for x in xrange(0, self.city_count)]
+        self.number_of_cities = len(cities)
+        # chromosome - fx. list [1,6,4] indicates that salesman goes from 1 to 6 to 4 and back to 1
+        self.chromosome = [x for x in xrange(0, self.number_of_cities)]
         random.shuffle(self.chromosome)
         self.fitness = self.get_fitness()
 
@@ -21,15 +21,14 @@ class TSPGenotype(object):
     def get_fitness(self):
         fitness = 0.0
         prev = self.chromosome[0]
-        for i in xrange(1, self.city_count + 1):
-            i %= self.city_count
-            index = self.chromosome[i]
-            delta_x = self.cities[index].x - self.cities[prev].x
-            delta_y = self.cities[index].y - self.cities[prev].y
-            fitness -= math.sqrt(delta_x ** 2 + delta_y ** 2)
-            prev = index
+        for i in xrange(0, self.number_of_cities):
+            j = self.chromosome[i]
+            xvector = self.cities[j].x - self.cities[prev].x
+            yvector = self.cities[j].y - self.cities[prev].y
+            fitness -= math.sqrt(math.pow(xvector, 2) + math.pow(yvector, 2))
+            prev = j
         return fitness
 
-    def set_chromosom(self, list):
-        self.chromosome = list[:]
+    def set_chromosome(self, new_chromosome):
+        self.chromosome = new_chromosome
         self.fitness = self.get_fitness()
