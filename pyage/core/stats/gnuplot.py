@@ -30,6 +30,7 @@ class StepStatistics(Statistics):
         try:
             logger.debug(self.history)
             logger.debug("best genotype: %s", max(agents, key=lambda a: a.get_fitness()).get_best_genotype())
+            self.fitness_output.write("best genotype: %s" + str(max(agents, key=lambda a: a.get_fitness()).get_best_genotype()))
         except:
             logging.exception("")
 
